@@ -16,11 +16,15 @@
 
 // need swap
 #include "utility.h"
+#ifdef __ANDROID__
+#	include <stdlib.h>
+#else
 
 
 #pragma inline_depth( 255 )
 #pragma inline_recursion( on )
 
+#endif
 
 //! Used in creating an identity matrix 
 //! Assigns each element of the matrix
@@ -121,9 +125,19 @@ struct TransposeMtx
 };
 
 
+#ifdef __ANDROID__
+#	define COPY_OPERATOR(dimension)														\
+	/* Copy assignment operator */														\
+	matrix##dimension &operator= (matrix##dimension matrix)								\
+	{																					\
+		std::copy(std::begin(matrix.elem), std::end(matrix.elem), std::begin(elem));	\
+	}
+#else
+#	define COPY_OPERATOR(dimension)
+#endif
 
 //! internal matrix class definition macros
-#ifdef WIN32
+#if defined(WIN32) || defined(__ANDROID__)
 #define MATRIX_COMMON_INTERNAL(dimension)                                   \
 	/* the data of the matrix */											\
 	union																	\
@@ -140,6 +154,7 @@ struct TransposeMtx
 		memcpy((float *)&col, entries, dimension*dimension*sizeof(float));	\
 		if (!colmajor) transpose();											\
 	}																		\
+	COPY_OPERATOR(dimension)												\
 	/* Array indexing */													\
 	vector##dimension##f &operator [] (unsigned int i)						\
 	{  	return(vector##dimension##f &)col[i];   }							\

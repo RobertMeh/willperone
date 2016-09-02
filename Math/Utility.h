@@ -47,6 +47,9 @@
 
 
 #include "Assert.h"
+#ifdef __ANDROID__
+#	include <math.h>
+#endif
 
 
 // swap a and b
@@ -81,12 +84,14 @@ template<class Type> inline void Swap(Type &a,Type &b)
 #define FLOAT_AS_INT(f)			(reinterpret_cast<const unsigned long &>(f))
 #define INT_AS_FLOAT(i)			(reinterpret_cast<const float &>(i))
 
-#define DBL_EPSILON     2.2204460492503131e-016 // smallest such that 1.0+DBL_EPSILON != 1.0 
-#define DBL_MAX         1.7976931348623158e+308 // max value 
-#define DBL_MIN         2.2250738585072014e-308 // min positive value 
-#define FLT_EPSILON     1.192092896e-07F        // smallest such that 1.0+FLT_EPSILON != 1.0 
-#define FLT_MAX         3.402823466e+38F        // max value 
-#define FLT_MIN         1.175494351e-38F        // min positive value 
+#ifndef __ANDROID__
+#	define DBL_MAX         1.7976931348623158e+308 // max value
+#	define DBL_MIN         2.2250738585072014e-308 // min positive value
+#	define FLT_MAX         3.402823466e+38F        // max value
+#	define FLT_MIN         1.175494351e-38F        // min positive value
+#endif
+#define DBL_EPSILON     2.2204460492503131e-016 // smallest such that 1.0+DBL_EPSILON != 1.0
+#define FLT_EPSILON     1.192092896e-07F        // smallest such that 1.0+FLT_EPSILON != 1.0
 
 
 namespace Math

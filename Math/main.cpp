@@ -196,7 +196,7 @@ void testrand()
 {
 	cout << "testing rand..." << endl;
 
-	random *r= new random(55);
+	class random *r= new class random(55);
 	
 	cout << "max val= " << r->max() << endl;
 	for (int i= 0; i < 10; i++)

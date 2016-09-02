@@ -17,7 +17,12 @@
 #pragma once
 
 
-#include <memory.h>
+#ifdef __ANDROID__
+#	include <stdlib.h>
+#	include <algorithm>
+#else
+#	include <memory.h>
+#endif
 
 #include "MatrixN.h"
 #include "vector2.h"

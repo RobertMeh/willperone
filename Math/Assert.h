@@ -49,9 +49,12 @@
 	#endif
 
 #else // not running on windows
-	#include <assert.h>
-    #define Assert(exp, description)  assert((exp) && (description));
-
+#	include <assert.h>
+#	ifdef __ANDROID__
+#  		define	Assert(e, description)	((e) ? (void)0 : __assert2(__FILE__, __LINE__, __func__, #e ": " description))
+#	else
+#		define Assert(exp, description)  assert((exp) && (description));
+#	endif
 #endif
 
 // useful utility for when you are dealing with STL file IO stuff
@@ -63,6 +66,7 @@
 
 
 // override the normal assert (this only works if Assert.h is included before everything else)
+#undef assert
 #define assert(exp)  Assert(exp, "Unhandled exception")
 
 

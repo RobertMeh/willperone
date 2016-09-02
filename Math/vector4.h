@@ -23,7 +23,7 @@
 template <typename T>
 struct vector4: public vector3<T>
 {
-	#ifdef WIN32
+	#if defined(WIN32) || defined(__ANDROID__)
 	using vector3<T>::x;
 	using vector3<T>::y;
 	using vector3<T>::z;
